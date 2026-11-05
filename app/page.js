@@ -24,6 +24,7 @@ export default function Home() {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState('');
+  const [search, setSearch] = useState('');
 
   useEffect(() => {
     async function loadCatalog() {
@@ -44,7 +45,10 @@ export default function Home() {
   const active = categories.find((c) => categoryName(c) === activeCategory) || categories[0];
   const categoryProducts = useMemo(() => products.filter((p) => p.category === activeCategory), [products, activeCategory]);
   const subcategories = useMemo(() => ['Semua', ...new Set(categoryProducts.map((p) => p.subcategory).filter(Boolean))], [categoryProducts]);
-  const visibleProducts = categoryProducts.filter((p) => activeSubcategory === 'Semua' || p.subcategory === activeSubcategory);
+  const visibleProducts = categoryProducts.filter((p) =>
+    (activeSubcategory === 'Semua' || p.subcategory === activeSubcategory) &&
+    `${p.name || ''} ${p.subcategory || ''}`.toLowerCase().includes(search.toLowerCase())
+  );
 
   useEffect(() => { if (categories.length && !activeCategory) setActiveCategory(categoryName(categories[0])); }, [categories, activeCategory]);
   useEffect(() => { setActiveSubcategory('Semua'); }, [activeCategory]);
@@ -57,30 +61,60 @@ export default function Home() {
   return (
     <main className="site-shell">
       <header className="site-header">
-        <a className="brand" href="#home"><span className="brand-mark">f.</span><span>fingerdance <b>florist</b><small>FLOWERS · MOMENTS · MEMORIES</small></span></a>
-        <nav><a href="#home">Home</a><a href="#catalog">Collection</a><a href="#about">Our Story</a><a className="nav-cta" href={waLink(null)} target="_blank" rel="noreferrer">Contact us ↗</a></nav>
+        <a className="brand" href="#home" aria-label="Fingerdance Florist home">
+          <span className="brand-mark">F<span>✳</span></span>
+          <span className="brand-word">fingerdance<small>FLOWER STUDIO · BANDAR LAMPUNG</small></span>
+        </a>
+        <nav className="desktop-nav"><a href="#catalog">Shop flowers</a><a href="#story">Our story</a><a href="#footer">Find us</a></nav>
+        <a className="header-order" href={waLink(null)} target="_blank" rel="noreferrer">Chat florist <span>↗</span></a>
       </header>
 
       <section className="hero" id="home">
-        <div className="hero-copy"><span className="eyebrow">A LITTLE BEAUTY, A LOT OF MEANING</span><h1>Flowers that<br/><em>speak from</em><br/>the heart.</h1><p>Setiap rangkaian punya cerita. Temukan bunga dan hadiah istimewa untuk momen yang ingin selalu dikenang.</p><a className="primary-button" href="#catalog">Explore collection <span>↗</span></a><div className="hero-note"><span className="note-line"/> HANDCRAFTED WITH LOVE</div></div>
-        <div className="hero-art"><div className="hero-image"><div className="hero-image-overlay"><span>THE ART OF GIVING</span><b>Made with<br/>love, for you.</b></div></div><div className="hero-stamp">F<br/><small>F</small></div><span className="hero-side-caption">FLOWERS FOR EVERY CHAPTER · EST. WITH LOVE</span></div>
+        <div className="hero-copy">
+          <span className="hero-kicker"><i/> FLOWERS FOR YOUR EVERYDAY MOMENTS</span>
+          <h1>A little<br/><em>flower</em> goes<br/>a long way.</h1>
+          <p>Hadiah kecil, perasaan besar. Pilih rangkaian bunga yang dibuat dengan hati untuk orang-orang istimewa.</p>
+          <a className="hero-button" href="#catalog">Temukan bungamu <span>↓</span></a>
+          <div className="hero-footnote"><b>01</b><span>HANDMADE WITH CARE</span><i/></div>
+        </div>
+        <div className="hero-visual">
+          <div className="hero-photo"><div className="photo-caption"><small>THE FINGERDANCE EDIT</small><b>Say it<br/>with flowers.</b></div></div>
+          <div className="hero-sticker">made<br/>with<br/><b>♡</b></div>
+          <div className="hero-side-label">A FLOWER FOR EVERY STORY — EST. 2026</div>
+        </div>
+        <div className="hero-index">F / 01</div>
       </section>
 
-      <section className="intro-strip" id="about"><span>01 / OUR PHILOSOPHY</span><p>Lebih dari sekadar bunga — kami merangkai perasaan menjadi sesuatu yang bisa kamu berikan.</p><span>MADE TO MAKE YOU SMILE ✳</span></section>
+      <section className="marquee-strip" aria-label="Fingerdance Florist values">
+        <span>FLOWERS THAT FEEL LIKE YOU</span><b>✳</b><span>THOUGHTFUL GIFTS</span><b>✳</b><span>MADE WITH LOVE</span><b>✳</b>
+      </section>
+
+      <section className="story-section" id="story">
+        <div className="story-number">[ A NOTE FROM US ]</div>
+        <div><p className="story-big">Bukan cuma bunga. <em>Tapi cara sederhana</em> untuk bilang, “aku ingat kamu.”</p><p className="story-small">Kami percaya setiap momen layak dirayakan, dari hari besar sampai hal kecil yang terasa berarti.</p></div>
+        <div className="story-seal">F<br/><small>FLOWER STUDIO</small></div>
+      </section>
 
       <section className="catalog-section" id="catalog">
-        <div className="section-heading"><div><span className="eyebrow">FIND YOUR PERFECT GIFT</span><h2>Our <em>collections.</em></h2></div><p>Temukan rangkaian yang paling sesuai<br/>dengan cerita dan momenmu.</p></div>
-        <div className="category-tabs">{categories.map((cat, i) => <button key={cat.id || categoryName(cat)} className={activeCategory === categoryName(cat) ? 'category-tab active' : 'category-tab'} onClick={() => setActiveCategory(categoryName(cat))}><span>{cat.icon || ['💐','🌷','🎁'][i % 3]}</span>{categoryName(cat)}<sup>0{i + 1}</sup></button>)}</div>
-        {active && <div className="category-description"><span>{active.icon || '✿'}</span><p>{active.description || `Pilihan spesial dari koleksi ${categoryName(active)} kami.`}</p></div>}
+        <div className="catalog-topline"><span>02 / THE FLOWER SHOP</span><span>SCROLL, CHOOSE, SEND LOVE</span></div>
+        <div className="catalog-title-row"><div><span className="section-kicker">FIND YOUR SOMETHING SPECIAL</span><h2>Shop the <em>feeling.</em></h2></div><p>Temukan hadiah yang paling<br/>pas untuk ceritamu.</p></div>
+        <div className="shop-tools">
+          <div className="category-tabs" role="tablist" aria-label="Kategori produk">
+            {categories.map((cat, i) => <button role="tab" aria-selected={activeCategory === categoryName(cat)} key={cat.id || categoryName(cat)} className={activeCategory === categoryName(cat) ? 'category-tab active' : 'category-tab'} onClick={() => setActiveCategory(categoryName(cat))}><span>{cat.icon || ['💐','🌷','🎁'][i % 3]}</span><b>{categoryName(cat)}</b><small>0{i + 1}</small></button>)}
+          </div>
+          <label className="product-search"><span>⌕</span><input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Cari rangkaian bunga..." aria-label="Cari produk"/></label>
+        </div>
+        {active && <div className="category-description"><span>{active.icon || '✳'}</span><p>{active.description || `Pilihan spesial dari koleksi ${categoryName(active)} kami.`}</p></div>}
         {subcategories.length > 1 && <div className="sub-filter">{subcategories.map((sub) => <button key={sub} className={activeSubcategory === sub ? 'selected' : ''} onClick={() => setActiveSubcategory(sub)}>{sub}</button>)}</div>}
-        {loading ? <div className="empty-state">Menyiapkan koleksi bunga untukmu…</div> : loadError && !products.length ? <div className="empty-state">{loadError}<small>Produk dapat dikelola setelah konfigurasi Supabase selesai.</small></div> : visibleProducts.length ? <div className="product-grid">{visibleProducts.map((product) => <button className="product-card" key={product.id} onClick={() => setSelectedProduct(product)}><div className="product-photo">{product.image ? <ProductMedia src={product.image} alt={product.name || product.subcategory || 'Fingerdance Florist'} /> : <div className="photo-placeholder">✿</div>}<span className="photo-view">VIEW DETAILS ↗</span></div><div className="product-meta"><div><span>{product.subcategory || categoryName(active)}</span><h3>{product.name || product.subcategory || 'Flower arrangement'}</h3></div><b>{money(product.price)}</b></div></button>)}</div> : <div className="empty-state">Koleksi ini sedang disiapkan.<small>Hubungi kami untuk request rangkaian custom.</small><a href={waLink(null)} target="_blank" rel="noreferrer">Tanya melalui WhatsApp ↗</a></div>}
+        <div className="catalog-result-line"><span>{activeCategory || 'OUR COLLECTION'}</span><span>{visibleProducts.length} ITEMS <i>↘</i></span></div>
+        {loading ? <div className="empty-state">Menyiapkan koleksi bunga untukmu…</div> : loadError && !products.length ? <div className="empty-state">{loadError}<small>Produk dapat dikelola setelah konfigurasi Supabase selesai.</small></div> : visibleProducts.length ? <div className="product-grid">{visibleProducts.map((product, index) => <button className="product-card" key={product.id} onClick={() => setSelectedProduct(product)}><div className="product-photo">{product.image ? <ProductMedia src={product.image} alt={product.name || product.subcategory || 'Fingerdance Florist'} /> : <div className="photo-placeholder">✳</div>}<span className="product-count">0{index + 1}</span><span className="photo-view">QUICK VIEW ↗</span></div><div className="product-meta"><div><span>{product.subcategory || categoryName(active)}</span><h3>{product.name || product.subcategory || 'Flower arrangement'}</h3></div><b>{money(product.price)}</b></div></button>)}</div> : <div className="empty-state">Koleksi ini sedang disiapkan.<small>Coba kata kunci atau kategori lain, atau hubungi florist untuk request custom.</small><a href={waLink(null)} target="_blank" rel="noreferrer">Tanya melalui WhatsApp ↗</a></div>}
       </section>
 
-      <section className="closing-banner"><span className="eyebrow">LET'S MAKE IT MEMORABLE</span><h2>A thoughtful gift<br/>starts with <em>a flower.</em></h2><a className="light-button" href={waLink(null)} target="_blank" rel="noreferrer">Talk to our florist ↗</a></section>
-      <footer className="site-footer"><a className="brand footer-brand" href="#home"><span className="brand-mark">f.</span><span>fingerdance <b>florist</b><small>FLOWERS · MOMENTS · MEMORIES</small></span></a><p>Merangkai keindahan, merayakan setiap cerita.</p><div><a href="#catalog">Collections</a><a href={waLink(null)} target="_blank" rel="noreferrer">WhatsApp</a><a href="/admin">Admin</a></div><small>© {new Date().getFullYear()} Fingerdance Florist. Made with love.</small></footer>
-      <nav className="mobile-dock" aria-label="Navigasi utama"><a href="#home"><span>⌂</span><small>Home</small></a><a href="#catalog"><span>✿</span><small>Collection</small></a><a href={waLink(null)} target="_blank" rel="noreferrer"><span>♡</span><small>Contact</small></a><a href="/admin"><span>⌘</span><small>Admin</small></a></nav>
+      <section className="closing-banner"><div><span className="section-kicker">A LITTLE SOMETHING GOES A LONG WAY</span><h2>Make someone’s<br/><em>day bloom.</em></h2></div><a href={waLink(null)} target="_blank" rel="noreferrer">Mulai pesan <span>↗</span></a></section>
+      <footer className="site-footer" id="footer"><div className="footer-main"><a className="brand" href="#home"><span className="brand-mark">F<span>✳</span></span><span className="brand-word">fingerdance<small>FLOWER STUDIO · BANDAR LAMPUNG</small></span></a><p>Merangkai keindahan,<br/>merayakan setiap cerita.</p><a className="footer-wa" href={waLink(null)} target="_blank" rel="noreferrer">LET'S TALK ↗</a></div><div className="footer-bottom"><span>© {new Date().getFullYear()} FINGERDANCE FLORIST</span><span>MADE WITH LOVE, ALWAYS.</span><a href="/admin">ADMIN PORTAL ↗</a></div></footer>
+      <nav className="mobile-dock" aria-label="Navigasi utama"><a href="#home"><span>⌂</span><small>Home</small></a><a href="#catalog"><span>✳</span><small>Shop</small></a><a href={waLink(null)} target="_blank" rel="noreferrer"><span>♡</span><small>Chat</small></a></nav>
 
-      {selectedProduct && <div className="modal-backdrop" onClick={() => setSelectedProduct(null)}><div className="product-modal" onClick={(e) => e.stopPropagation()}><button className="modal-close" onClick={() => setSelectedProduct(null)}>×</button>{selectedProduct.image && <div className="modal-media"><ProductMedia src={selectedProduct.image} alt={selectedProduct.name || 'Produk'} /></div>}<div className="modal-info"><span className="eyebrow">{selectedProduct.subcategory || selectedProduct.category}</span><h2>{selectedProduct.name || selectedProduct.subcategory}</h2><strong>{money(selectedProduct.price)}</strong><p>{selectedProduct.description || 'Rangkaian spesial yang dibuat dengan penuh perhatian. Hubungi kami untuk detail dan pilihan custom.'}</p><a className="primary-button" href={waLink(selectedProduct)} target="_blank" rel="noreferrer">Order via WhatsApp ↗</a></div></div></div>}
+      {selectedProduct && <div className="modal-backdrop" onClick={() => setSelectedProduct(null)}><div className="product-modal" onClick={(e) => e.stopPropagation()}><button className="modal-close" onClick={() => setSelectedProduct(null)}>×</button>{selectedProduct.image && <div className="modal-media"><ProductMedia src={selectedProduct.image} alt={selectedProduct.name || 'Produk'} /></div>}<div className="modal-info"><span className="eyebrow">{selectedProduct.subcategory || selectedProduct.category}</span><h2>{selectedProduct.name || selectedProduct.subcategory}</h2><strong>{money(selectedProduct.price)}</strong><p>{selectedProduct.description || 'Rangkaian spesial yang dibuat dengan penuh perhatian. Hubungi kami untuk detail dan pilihan custom.'}</p><a className="hero-button" href={waLink(selectedProduct)} target="_blank" rel="noreferrer">Order via WhatsApp ↗</a></div></div></div>}
     </main>
   );
 }
