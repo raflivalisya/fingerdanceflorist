@@ -1,7 +1,8 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { supabase, formatImageUrl, formatCanvaEmbedUrl } from '@/lib/supabase';
+import { supabase, formatCanvaEmbedUrl } from '@/lib/supabase';
+import ProductImage from '@/components/ProductImage';
 
 const DEFAULT_CATEGORIES = [
   { name: 'Bouquet', icon: '💐', description: 'Rangkaian bunga untuk setiap momen' },
@@ -13,7 +14,7 @@ const money = (value) => value ? `Rp ${Number(value).toLocaleString('id-ID')}` :
 
 function ProductMedia({ src, alt }) {
   const embed = formatCanvaEmbedUrl(src);
-  return embed ? <iframe src={embed} title={alt} loading="lazy" allow="fullscreen" /> : <img src={formatImageUrl(src)} alt={alt} loading="lazy" />;
+  return embed ? <iframe src={embed} title={alt} loading="lazy" allow="fullscreen" /> : <ProductImage src={src} alt={alt} />;
 }
 
 export default function Home() {
