@@ -61,39 +61,13 @@ export default function Home() {
   return (
     <main className="site-shell">
       <header className="site-header">
-        <a className="brand" href="#home" aria-label="Fingerdance Florist home">
+        <a className="brand" href="#catalog" aria-label="Fingerdance Florist home">
           <span className="brand-mark">F<span>✳</span></span>
           <span className="brand-word">fingerdance<small>FLOWER STUDIO · BANDAR LAMPUNG</small></span>
         </a>
-        <nav className="desktop-nav"><a href="#catalog">Shop flowers</a><a href="#story">Our story</a><a href="#footer">Find us</a></nav>
+        <nav className="desktop-nav"><a href="#catalog">Shop flowers</a><a href="#footer">Find us</a></nav>
         <a className="header-order" href={waLink(null)} target="_blank" rel="noreferrer">Chat florist <span>↗</span></a>
       </header>
-
-      <section className="hero" id="home">
-        <div className="hero-copy">
-          <span className="hero-kicker"><i/> FLOWERS FOR YOUR EVERYDAY MOMENTS</span>
-          <h1>A little<br/><em>flower</em> goes<br/>a long way.</h1>
-          <p>Hadiah kecil, perasaan besar. Pilih rangkaian bunga yang dibuat dengan hati untuk orang-orang istimewa.</p>
-          <a className="hero-button" href="#catalog">Temukan bungamu <span>↓</span></a>
-          <div className="hero-footnote"><b>01</b><span>HANDMADE WITH CARE</span><i/></div>
-        </div>
-        <div className="hero-visual">
-          <div className="hero-photo"><div className="photo-caption"><small>THE FINGERDANCE EDIT</small><b>Say it<br/>with flowers.</b></div></div>
-          <div className="hero-sticker">made<br/>with<br/><b>♡</b></div>
-          <div className="hero-side-label">A FLOWER FOR EVERY STORY — EST. 2026</div>
-        </div>
-        <div className="hero-index">F / 01</div>
-      </section>
-
-      <section className="marquee-strip" aria-label="Fingerdance Florist values">
-        <span>FLOWERS THAT FEEL LIKE YOU</span><b>✳</b><span>THOUGHTFUL GIFTS</span><b>✳</b><span>MADE WITH LOVE</span><b>✳</b>
-      </section>
-
-      <section className="story-section" id="story">
-        <div className="story-number">[ A NOTE FROM US ]</div>
-        <div><p className="story-big">Bukan cuma bunga. <em>Tapi cara sederhana</em> untuk bilang, “aku ingat kamu.”</p><p className="story-small">Kami percaya setiap momen layak dirayakan, dari hari besar sampai hal kecil yang terasa berarti.</p></div>
-        <div className="story-seal">F<br/><small>FLOWER STUDIO</small></div>
-      </section>
 
       <section className="catalog-section" id="catalog">
         <div className="catalog-topline"><span>02 / THE FLOWER SHOP</span><span>SCROLL, CHOOSE, SEND LOVE</span></div>
@@ -111,8 +85,8 @@ export default function Home() {
       </section>
 
       <section className="closing-banner"><div><span className="section-kicker">A LITTLE SOMETHING GOES A LONG WAY</span><h2>Make someone’s<br/><em>day bloom.</em></h2></div><a href={waLink(null)} target="_blank" rel="noreferrer">Mulai pesan <span>↗</span></a></section>
-      <footer className="site-footer" id="footer"><div className="footer-main"><a className="brand" href="#home"><span className="brand-mark">F<span>✳</span></span><span className="brand-word">fingerdance<small>FLOWER STUDIO · BANDAR LAMPUNG</small></span></a><p>Merangkai keindahan,<br/>merayakan setiap cerita.</p><a className="footer-wa" href={waLink(null)} target="_blank" rel="noreferrer">LET'S TALK ↗</a></div><div className="footer-bottom"><span>© {new Date().getFullYear()} FINGERDANCE FLORIST</span><span>MADE WITH LOVE, ALWAYS.</span><a href="/admin">ADMIN PORTAL ↗</a></div></footer>
-      <nav className="mobile-dock" aria-label="Navigasi utama"><a href="#home"><span>⌂</span><small>Home</small></a><a href="#catalog"><span>✳</span><small>Shop</small></a><a href={waLink(null)} target="_blank" rel="noreferrer"><span>♡</span><small>Chat</small></a></nav>
+      <footer className="site-footer" id="footer"><div className="footer-main"><a className="brand" href="#catalog"><span className="brand-mark">F<span>✳</span></span><span className="brand-word">fingerdance<small>FLOWER STUDIO · BANDAR LAMPUNG</small></span></a><p>Merangkai keindahan,<br/>merayakan setiap cerita.</p><a className="footer-wa" href={waLink(null)} target="_blank" rel="noreferrer">LET'S TALK ↗</a></div><div className="footer-bottom"><span>© {new Date().getFullYear()} FINGERDANCE FLORIST</span><span>MADE WITH LOVE, ALWAYS.</span><a href="/admin">ADMIN PORTAL ↗</a></div></footer>
+      <nav className="mobile-dock" aria-label="Navigasi utama"><a href="#catalog"><span>✳</span><small>Shop</small></a><a href="#footer"><span>⌂</span><small>Info</small></a><a href={waLink(null)} target="_blank" rel="noreferrer"><span>♡</span><small>Chat</small></a></nav>
 
       {selectedProduct && <div className="modal-backdrop" onClick={() => setSelectedProduct(null)}><div className="product-modal" onClick={(e) => e.stopPropagation()}><button className="modal-close" onClick={() => setSelectedProduct(null)}>×</button>{selectedProduct.image && <div className="modal-media"><ProductMedia src={selectedProduct.image} alt={selectedProduct.name || 'Produk'} /></div>}<div className="modal-info"><span className="eyebrow">{selectedProduct.subcategory || selectedProduct.category}</span><h2>{selectedProduct.name || selectedProduct.subcategory}</h2><strong>{money(selectedProduct.price)}</strong><p>{selectedProduct.description || 'Rangkaian spesial yang dibuat dengan penuh perhatian. Hubungi kami untuk detail dan pilihan custom.'}</p><a className="hero-button" href={waLink(selectedProduct)} target="_blank" rel="noreferrer">Order via WhatsApp ↗</a></div></div></div>}
     </main>
