@@ -41,3 +41,16 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 - Homepage catalog uses a compact ecommerce-style product grid and mobile layout.
 - Admin includes a welcome banner, summary cards, and vertical desktop navigation.
 - Supabase authentication, product/category CRUD, and WhatsApp ordering logic are preserved.
+
+
+## Modul Invoice dan Laporan Keuangan
+
+1. Buka Supabase Dashboard → SQL Editor.
+2. Jalankan seluruh isi `supabase/finance-module.sql` satu kali.
+3. Deploy ulang project Next.js.
+4. Login ke `/admin`, lalu pilih menu `Invoice & Laporan`.
+5. Gunakan `Transaksi baru` untuk mencatat pesanan yang diterima melalui WhatsApp atau kanal lain.
+
+Modul menyediakan nomor invoice otomatis, rincian item, biaya pengiriman, diskon, pencatatan DP/pelunasan, status pesanan, cetak invoice melalui Print / Save as PDF, filter transaksi, rekap omzet bulanan, dan ekspor CSV yang dapat dibuka di Excel.
+
+**Catatan integrasi:** versi project ini menggunakan pemesanan melalui WhatsApp dan belum menyimpan checkout website ke database. Karena itu pesanan WhatsApp perlu dicatat melalui menu `Transaksi baru`. Agar order dari dua website masuk otomatis, alur pemesanan/checkout kedua website harus diintegrasikan ke tabel `florist_orders` dan `florist_order_items`.
