@@ -637,3 +637,9 @@ body, .site-shell { background: var(--cream); color: var(--ink); }
   body{background:#fff!important}.admin-top,.finance-heading,.finance-nav,.finance-message,.finance-filter-row,.finance-kpis,.finance-grid,.finance-card:not(.invoice-preview),.finance-invoice-layout>.finance-card:first-child,.invoice-preview-actions,.invoice-admin-actions,.finance-bottom-note{display:none!important}
   .admin-page.finance-page{padding:0!important;max-width:none!important;background:#fff!important}.finance-invoice-layout{display:block!important}.invoice-preview{display:block!important;position:static!important;border:0!important;box-shadow:none!important;padding:0!important}.invoice-paper{border:0!important;padding:0!important}.invoice-paper *{print-color-adjust:exact;-webkit-print-color-adjust:exact}
 }
+
+/* Aksi edit dan hapus pada daftar invoice */
+.finance-row-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;white-space:nowrap}
+.finance-row-actions .finance-text-button{padding:5px 0}
+.finance-delete-link{color:#b42318!important}
+@media(max-width:700px){.finance-row-actions{gap:8px}.finance-row-actions .finance-text-button{font-size:12px}}
